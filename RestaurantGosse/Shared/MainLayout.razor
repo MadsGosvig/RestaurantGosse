@@ -1,6 +1,11 @@
 @inherits LayoutComponentBase
 
+<div class="sidebar">
+    <RestaurantGosse.Shared.NavMenu></RestaurantGosse.Shared.NavMenu>
+</div>
+
 <div class="main">
-    <SearchBar></SearchBar>
-    @Body
+    <div class="content px-4">
+        @Body
+    </div>
 </div>
