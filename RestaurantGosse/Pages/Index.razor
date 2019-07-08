@@ -1,0 +1,31 @@
+﻿@page "/"
+@inject HttpClient Http
+
+<h1 class="text-center">Opskrifter</h1>
+
+@if (recipes == null)
+{
+    <p><em>I gang med at hente opskrifterne...</em></p>
+}
+else
+{
+<div class="recipe-container">
+    <div class="recipe">
+        @foreach (var recipe in recipes)
+        {
+            <RestaurantGosse.Shared.Recipe recipe="@recipe"></RestaurantGosse.Shared.Recipe>
+        }
+    </div>
+</div>
+}
+
+@code {
+    IEnumerable<Shared.Recipe.RecipeContentful> recipes;
+
+    protected override async Task OnInitAsync()
+    {
+        var client = new ContentfulClient(Http, "4NdEMIEctHC8ORP-VbjqD4P51Wn9AV7YCbnllZTQszE", "TkebmxPC-h5Mi5Gj1jXSQsc8KDWMBEp9fgbYw5dHQng", "wdg89rpqhpev");
+        var recipesContentful = await client.GetEntries<Shared.Recipe.RecipeContentful>();
+        recipes = recipesContentful.Items;
+    }
+}

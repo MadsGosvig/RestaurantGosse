@@ -1,0 +1,25 @@
+<div class="recipe">
+    <p class="recipe-title">@recipe.Title</p>
+    <p class="recipe-amount">@recipe.Amount</p>
+    <div class="recipe-ingredients">@((MarkupString)new HtmlRenderer().ToHtml(recipe.Ingredients).Result)</div>
+    <div class="recipe-instructions">@((MarkupString)new HtmlRenderer().ToHtml(recipe.Instructions).Result)</div>
+    <img class="recipe-image" src="@recipe.Image.File.Url" alt="@recipe.Image.File.Details" />
+</div>
+
+
+
+@code {
+    [Parameter]
+    RecipeContentful recipe { get; set; }
+
+
+    public class RecipeContentful
+    {
+        public SystemProperties Sys { get; set; }
+        public string Amount { get; set; }
+        public string Title { get; set; }
+        public Document Ingredients { get; set; }
+        public Document Instructions { get; set; }
+        public Asset Image { get; set; }
+    }
+}

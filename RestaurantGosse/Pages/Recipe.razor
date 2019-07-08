@@ -1,0 +1,45 @@
+@page "/recipe/"
+@page "/recipe/{recipeId}"
+@inject HttpClient Http
+
+@if (canFetchData)
+{
+    if (recipe == null)
+    {
+        <p><em>I gang med at hente opskrifterne...</em></p>
+    }
+    else
+    {
+        <div class="recipe-container">
+            <RestaurantGosse.Shared.Recipe recipe="@recipe"></RestaurantGosse.Shared.Recipe>
+        </div>
+    }
+}
+else
+{
+    <p>Kan ikke finde opskrift ID'et...</p>
+}
+
+
+
+@code {
+    [Parameter]
+    public string recipeId { get; set; } = "default";
+
+    bool canFetchData = true;
+    Shared.Recipe.RecipeContentful recipe;
+
+    protected override async Task OnInitAsync()
+    {
+        if (recipeId == "default")
+        {
+            canFetchData = false;
+            return;
+        }
+        var builder = new QueryBuilder<Shared.Recipe.RecipeContentful>().FieldEquals(f => f.Sys.Id, recipeId).Include(1);
+        var client = new ContentfulClient(Http, "4NdEMIEctHC8ORP-VbjqD4P51Wn9AV7YCbnllZTQszE", "TkebmxPC-h5Mi5Gj1jXSQsc8KDWMBEp9fgbYw5dHQng", "wdg89rpqhpev");
+        recipe = (await client.GetEntries(builder)).FirstOrDefault();
+    }
+
+
+}
