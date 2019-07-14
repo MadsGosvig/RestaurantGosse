@@ -1,12 +1,7 @@
-﻿@page "/"
+@page "/maincourse"
 @inject HttpClient Http
 
-<h1 class="text-center">Opskrifter</h1>
-
-<p>
-    Her på siden findes en oversigt over alle de opskrifter som familien Gosse har. <br />
-    Alle opskrifterne er gennemprøvet, og vi har sikret os at de alle sammen smager super godt!
-</p>
+<h1 class="text-center">Hovedretter</h1>
 
 @if (recipes == null)
 {
@@ -32,12 +27,16 @@ else
 }
 
 @code {
-    IEnumerable<Shared.Recipe.RecipeContentful> recipes;
+    IEnumerable<Shared.Recipe.RecipeContentful>
+    recipes;
 
     protected override async Task OnInitAsync()
     {
         var client = new ContentfulClient(Http, "4NdEMIEctHC8ORP-VbjqD4P51Wn9AV7YCbnllZTQszE", "TkebmxPC-h5Mi5Gj1jXSQsc8KDWMBEp9fgbYw5dHQng", "wdg89rpqhpev");
-        var recipesContentful = await client.GetEntries<Shared.Recipe.RecipeContentful>(new QueryBuilder<Shared.Recipe.RecipeContentful>().Limit(12));
+        var query = new QueryBuilder<Shared.Recipe.RecipeContentful>
+            ().ContentTypeIs("recipe").Limit(12).FieldEquals(field => field.Type, "Hovedret");
+        var recipesContentful = await client.GetEntries<Shared.Recipe.RecipeContentful>
+            (query);
         recipes = recipesContentful.Items;
     }
 }

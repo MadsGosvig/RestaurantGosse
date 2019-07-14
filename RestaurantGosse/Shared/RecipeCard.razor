@@ -1,0 +1,17 @@
+@inject IUriHelper UriHelper
+
+<div @onclick="@Navigate">
+    <MatCard>
+        <h2 class="recipe-header">@recipe.Title</h2>
+    </MatCard>
+</div>
+
+@code {
+    [Parameter]
+    Shared.Recipe.RecipeContentful recipe { get; set; }
+
+    private void Navigate()
+    {
+        UriHelper.NavigateTo("/recipe/" + recipe.Sys.Id);
+    }
+}

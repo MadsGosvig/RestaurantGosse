@@ -11,7 +11,13 @@
     else
     {
         <div class="recipe-container">
-            <RestaurantGosse.Shared.Recipe recipe="@recipe"></RestaurantGosse.Shared.Recipe>
+            <div class="recipe">
+                <h2 class="recipe-title">@recipe.Title</h2>
+                <p class="recipe-amount">M&aelig;ngde: @recipe.Amount</p>
+                <div class="recipe-ingredients">@((MarkupString)new HtmlRenderer().ToHtml(recipe.Ingredients).Result)</div>
+                <div class="recipe-instructions">@((MarkupString)new HtmlRenderer().ToHtml(recipe.Instructions).Result)</div>
+                <img class="recipe-image" src="@recipe.Image.File.Url" alt="@recipe.Image.File.Details" />
+            </div>
         </div>
     }
 }

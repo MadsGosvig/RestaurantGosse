@@ -1,25 +1,28 @@
-<div class="recipe">
-    <h2 class="recipe-title">@recipe.Title</h2>
-    <p class="recipe-amount">M&aelig;ngde: @recipe.Amount</p>
-    <div class="recipe-ingredients">@((MarkupString)new HtmlRenderer().ToHtml(recipe.Ingredients).Result)</div>
-    <div class="recipe-instructions">@((MarkupString)new HtmlRenderer().ToHtml(recipe.Instructions).Result)</div>
-    @*<img class="recipe-image" src="@recipe.Image.File.Url" alt="@recipe.Image.File.Details" />*@
+@inject IUriHelper UriHelper
+
+<div @onclick="@Navigate">
+    <MatCard>
+        <h2 class="recipe-header">@recipe.Title</h2>
+    </MatCard>
 </div>
-
-
 
 @code {
     [Parameter]
     RecipeContentful recipe { get; set; }
 
-
     public class RecipeContentful
     {
         public SystemProperties Sys { get; set; }
-        public string Amount { get; set; }
         public string Title { get; set; }
+        public string Type { get; set; }
+        public string Amount { get; set; }
         public Document Ingredients { get; set; }
         public Document Instructions { get; set; }
         public Asset Image { get; set; }
+    }
+
+    private void Navigate()
+    {
+        UriHelper.NavigateTo("/recipe/" + recipe.Sys.Id);
     }
 }
