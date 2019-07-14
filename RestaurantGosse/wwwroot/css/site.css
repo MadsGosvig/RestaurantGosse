@@ -16,6 +16,7 @@ html, body {
 
 .mdc-card {
     background: linear-gradient(160deg, rgb(226, 116, 20) 0%, rgb(170, 85, 227) 100%);
+    cursor: pointer;
 }
 
 .recipe-header {
